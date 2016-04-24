@@ -1,0 +1,12 @@
+---
+title: "Documentation"
+author: "TZiegler"
+date: "24 April 2016"
+output: html_document
+---
+
+## Analysing reconstruction costs for multi-family houses
+
+This shiny application displays the restoration, modernisation and reconstruction costs of 119 small (4 units) to large (396 units) multi-family houses in central Europe. The age of the houses vary between 184 and 17 years.
+
+The user can select the properties by its property id. Property details are shown below the property selection. In the main area the reconstruction activities and the corresponding costs are shown in a bar chart.

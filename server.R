@@ -61,5 +61,10 @@ shinyServer(function(input, output) {
         })
         
         vis %>% bind_shiny("plot1")
+        
+        
+        output$documentation <- renderText({  
+                readLines("documentation/index.html")  
+        })
 
 })

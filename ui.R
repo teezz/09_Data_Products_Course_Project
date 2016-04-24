@@ -21,6 +21,7 @@ shinyUI(fluidPage(
                 ),
                 
                 tags$div(class="well", checked=NA,
+                         h4("Property summary"),
                          list(
                                  uiOutput("sumProperty")
                          )
@@ -31,8 +32,8 @@ shinyUI(fluidPage(
         # Show a plot of the generated distribution
         mainPanel(
                 tabsetPanel(
-                        tabPanel("Plot", ggvisOutput("plot1")), 
-                        tabPanel("Documentation", verbatimTextOutput("summary"))
+                        tabPanel("Plot", h3("Overview of Reconstruction Costs"), ggvisOutput("plot1")), 
+                        tabPanel("Documentation", htmlOutput('documentation'))
                 )
         )
 
