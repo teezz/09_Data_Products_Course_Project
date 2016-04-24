@@ -12,10 +12,8 @@ shinyServer(function(input, output) {
         
         properties <- read.csv("data/data_capex.csv",
                                na.strings = "NA",
-                               stringsAsFactors = FALSE,
-                               colClasses = c("integer", "character", "character", "character", "character", "numeric",
-                                              "numeric", "integer", "integer", "integer", "character", "character",
-                                              "character", "character", "character","integer")
+                               stringsAsFactors = FALSE
+                               
                         )
         
         ## Remove all entries where year_construction and client_property_id == NA
@@ -29,7 +27,7 @@ shinyServer(function(input, output) {
         
         output$sumProperty <- renderUI({
                 assetid <- input$propertyList
-                reconstructions <- subset(properties, client_property_id == assetid, actions != "WEG-Wohngeld")
+                reconstructions <- subset(properties, client_property_id == assetid)
                 sumcosts <- format(round(sum(reconstructions$costs), 0), big.mark=",")
                 sumsqm <- format(sum(reconstructions$sqm), big.mark=",")
                 constyear <- unique(reconstructions$year_construction)
@@ -37,7 +35,7 @@ shinyServer(function(input, output) {
                 vacrate <- unique(reconstructions$vacancy_rate)
                 
                 elems=c("<div>")
-                elems=paste(elems,"</div><div>Property:", assetid, "</div><div>Total reconstruction costs:", sumcosts,
+                elems=paste(elems, "</div><div>Total reconstruction costs:", sumcosts,
                             "EUR</div><div>Total rental area:", sumsqm, "sqm</div><div>Year of construction:", constyear, "</div><div>Year of last renovation:", 
                             yearrenovation, "</div><div>Vacancy rate:", vacrate, "%</div>")
                 
@@ -49,13 +47,13 @@ shinyServer(function(input, output) {
         vis <- reactive({
                 ## Dynamically get data for selected property
                 assetid <- input$propertyList
-                reconstructions <- subset(properties, client_property_id == assetid & actions != "WEG-Wohngeld")
+                reconstructions <- subset(properties, client_property_id == assetid)
                 reconstructions <- arrange(reconstructions, desc(costs))
                 
                 
                 reconstructions %>% 
-                        ggvis(x = ~actions, y = ~costs, fill := "red") %>%
-                        add_axis("y", title = "Costs", title_offset = 80) %>%
+                        ggvis(x = ~actions_en, y = ~costs, fill := "red") %>%
+                        add_axis("y", title = "Costs [EUR]", title_offset = 80) %>%
                         add_axis("x", title = "Reconstruction activity", title_offset = 120, 
                                  properties = axis_props(labels = list(angle = -45, align = "right")
                         )) 
