@@ -23,13 +23,20 @@ suppressMessages(library(dplyr))
 
 ### Load data
 ```{r}
-sample <- read_excel("data/data_capex.xlsx", na = "")
+sample <- read_excel("../data_capex.xlsx", na = "")
 
-sample <- as.data.frame(propertyList)
+sample <- as.data.frame(sample)
 str(sample)
 
+## Subsetting the original data
+sample2 <- sample[,1:16]
+str(sample2)
+
+## Remove obsolete data
+sample2 <- subset(sample2, account != 5001)
+
 ## Write as csv file
-write.csv(sample, file = "data/data_capex.csv")
+write.csv(sample2, file = "data/data_capex.csv")
 ```
 
 ### Convert relevant numbers to integer
