@@ -13,30 +13,27 @@ shinyUI(fluidPage(
         titlePanel("Reconstruction Costs Analyser"),
 
         # Sidebar with a slider input for number of bins
-        fluidRow(
-                column(4,
-                        selectInput("propertyList",
-                                label = h3("Select property"),
-                                choices = val,
-                                selected = val[1]
-                        )
+        sidebarPanel(
+                selectInput("propertyList",
+                            label = h3("Select property"),
+                            choices = val,
+                            selected = val[1]
                 ),
                 
-                column(8,
-                       tags$div(class="well", checked=NA,
-                                list(
-                                        #tags$p(paste("Year of Construction:", unique(reconstructions$year_construction))),
-                                        #tags$p(paste("Total Reconstruction Costs:", sum(reconstructions$costs))),
-                                        #tags$p(paste("Vacancy Rate:", unique(reconstructions$vacancy_rate)))
-                                        uiOutput("sumProperty")
-                                )
-                       )
+                tags$div(class="well", checked=NA,
+                         list(
+                                 uiOutput("sumProperty")
+                         )
                 )
         ),
+        
 
         # Show a plot of the generated distribution
-        column(12,
-               ggvisOutput("plot1")
+        mainPanel(
+                tabsetPanel(
+                        tabPanel("Plot", ggvisOutput("plot1")), 
+                        tabPanel("Documentation", verbatimTextOutput("summary"))
+                )
         )
 
 ))
