@@ -19,12 +19,6 @@ shinyServer(function(input, output) {
         ## Remove all entries where year_construction and client_property_id == NA
         properties <- properties[!is.na(properties$year_construction) & !is.na(properties$client_property_id),]
         
-        output$propertyList <- renderTable({ 
-                val <- unique(properties$client_property_id)
-                val <- sort(val)
-                val
-        })
-        
         output$sumProperty <- renderUI({
                 assetid <- input$propertyList
                 reconstructions <- subset(properties, client_property_id == assetid)

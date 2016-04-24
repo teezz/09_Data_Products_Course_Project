@@ -7,6 +7,16 @@
 library(ggvis)
 library(shiny)
 
+properties <- read.csv("data/data_capex.csv",
+                       na.strings = "NA",
+                       stringsAsFactors = FALSE
+                       
+)
+
+getPropertyList <- as.list(sort(unique(properties$client_property_id)))
+
+
+
 shinyUI(fluidPage(
 
         # Application title
@@ -16,8 +26,7 @@ shinyUI(fluidPage(
         sidebarPanel(
                 selectInput("propertyList",
                             label = h3("Select property"),
-                            choices = val,
-                            selected = val[1]
+                            choices = getPropertyList
                 ),
                 
                 tags$div(class="well", checked=NA,
