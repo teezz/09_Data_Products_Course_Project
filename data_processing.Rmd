@@ -1,0 +1,62 @@
+---
+title: "Data Processing"
+author: "TZiegler"
+date: "22 April 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Synopsis
+
+This file loads the data and processes it and store it to the correct output.
+
+
+### Load all necessury libraries
+```{r}
+suppressMessages(library(ggplot2))
+suppressMessages(library("readxl"))
+suppressMessages(library(dplyr))
+```
+
+### Load data
+```{r}
+sample <- read_excel("data/data_capex.xlsx", na = "")
+
+sample <- as.data.frame(propertyList)
+str(sample)
+
+
+write.csv(sample, file = "data/data_capex.csv")
+```
+
+### Convert relevant numbers to integer
+```{r}
+
+```
+
+
+### Group data by client_propert_id and calclulate costs
+```{r}
+property_costs <- sample %>% filter(!is.na(year_construction)) %>%
+        group_by(sub_pid, client_property_id, year_construction, sqm) %>%
+        summarize(costs = sum(costs))
+
+prop_costs <- as.data.frame(property_costs)
+
+prop_costs <- arrange(prop_costs, desc(costs))
+prop_costs
+
+
+```
+
+### Print actions per asset
+```{r}
+assetid <- "3001"
+showdata <- subset(sample, client_property_id == assetid & actions != "WEG-Wohngeld")
+showdata <- arrange(showdata, desc(costs))
+showdata
+```
+
