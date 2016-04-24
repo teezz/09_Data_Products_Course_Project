@@ -27,12 +27,23 @@ shinyServer(function(input, output) {
                 val
         })
         
-        output$sumReconstructions <- reactive({
+        output$sumProperty <- renderUI({
                 assetid <- input$propertyList
                 reconstructions <- subset(properties, client_property_id == assetid, actions != "WEG-Wohngeld")
-                sval <- sum(reconstructions$costs)
-                sval <- paste("Total reconstruction costs for property", assetid , " is", sval, " EUR")
+                sumcosts <- format(round(sum(reconstructions$costs), 0), big.mark=",")
+                sumsqm <- format(sum(reconstructions$sqm), big.mark=",")
+                constyear <- unique(reconstructions$year_construction)
+                yearrenovation <- unique(reconstructions$year_last_renovation)
+                vacrate <- unique(reconstructions$vacancy_rate)
+                
+                elems=c("<div>")
+                elems=paste(elems,"</div><div>Property:", assetid, "</div><div>Total reconstruction costs:", sumcosts,
+                            "EUR</div><div>Total rental area:", sumsqm, "sqm</div><div>Year of construction:", constyear, "</div><div>Year of last renovation:", 
+                            yearrenovation, "</div><div>Vacancy rate:", vacrate, "%</div>")
+                
+                HTML(elems)
         })
+        
         
         ## Build a reactive expression with ggvis plot
         vis <- reactive({

@@ -10,11 +10,11 @@ library(shiny)
 shinyUI(fluidPage(
 
         # Application title
-        titlePanel("Reconstruction Costs"),
+        titlePanel("Reconstruction Costs Analyser"),
 
         # Sidebar with a slider input for number of bins
         fluidRow(
-                column(6,
+                column(4,
                         selectInput("propertyList",
                                 label = h3("Select property"),
                                 choices = val,
@@ -22,11 +22,13 @@ shinyUI(fluidPage(
                         )
                 ),
                 
-                column(6,
+                column(8,
                        tags$div(class="well", checked=NA,
                                 list(
-                                        tags$p("Ready to take the Shiny tutorial? If so"),
-                                        tags$p("Ready to take the Shiny tutorial? If so")
+                                        #tags$p(paste("Year of Construction:", unique(reconstructions$year_construction))),
+                                        #tags$p(paste("Total Reconstruction Costs:", sum(reconstructions$costs))),
+                                        #tags$p(paste("Vacancy Rate:", unique(reconstructions$vacancy_rate)))
+                                        uiOutput("sumProperty")
                                 )
                        )
                 )
@@ -34,12 +36,7 @@ shinyUI(fluidPage(
 
         # Show a plot of the generated distribution
         column(12,
-               ggvisOutput("plot1"),
-               wellPanel(
-                       span(
-                            textOutput("sumReconstructions")
-                       )
-               )
+               ggvisOutput("plot1")
         )
 
 ))
