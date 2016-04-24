@@ -28,7 +28,7 @@ sample <- read_excel("data/data_capex.xlsx", na = "")
 sample <- as.data.frame(propertyList)
 str(sample)
 
-
+## Write as csv file
 write.csv(sample, file = "data/data_capex.csv")
 ```
 
